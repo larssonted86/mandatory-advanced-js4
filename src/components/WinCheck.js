@@ -1,13 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-export class WinCheck extends Component {
-    render() {
-        return (
-            <div>
-                
-            </div>
-        )
-    }
+export default function WinCheck() {
+    return (
+        <div>
+            
+        </div>
+    )
 }
-
-export default WinCheck
