@@ -4,8 +4,7 @@ export class Board extends Component {
 
     state = {
         board: new Array(42).fill(null),
-        playerTurn: '1',
-
+        playerTurn: 'teal',
     }
 
     componentDidMount(){
@@ -14,15 +13,51 @@ export class Board extends Component {
           }))
     }
 
-    toggleColor = () =>{
+    toggleColor = (index) =>{
+        const column = index % 7;
+
+        let current = 7 * 5 + column;
+
+        while (current >= 0) {
+            if (this.state.board[current] === null) {
+                break;
+            }
+            current -= 7;
+        }
+
+        const newBoard = [...this.state.board];
+
+        newBoard[current] = this.state.playerTurn;
+
+        this.setState({
+            board: newBoard,
+            playerTurn: this.state.playerTurn === "teal" ? "pink" : "teal",
+        });
+    }
+
+    winCheck = () => {
         
     }
     
     render() {
         console.log(this.state.board)
-        const renderBoard = this.state.board.map( (boardArray,index) => {
-            return(<div key = {index} name = 'cell' style = {styles.cellStyle}>        
-                    </div>) 
+        const renderBoard = this.state.board.map( (value,index) => {
+            return(<div 
+            key = {index} 
+            name = 'cell' 
+            style = {styles.cellStyle}
+            onClick={value === null ? () => this.toggleColor(index): null}
+            >
+                    <div 
+                        style={{
+                         backgroundColor: value,
+                         width: '100%', 
+                         height: '100%', 
+                         borderRadius: '90px',
+                         textAlign: 'center'}}>
+                             {index}
+                     </div>        
+            </div>) 
             })
 
         return (
@@ -66,7 +101,8 @@ const styles = {
         width: '4.5rem',
         border: '1px solid lightgrey',
         borderRadius: '90px',
-        margin: '0.2rem'
+        margin: '0.2rem',
+        textAlign: 'center',
     },
 }
 
