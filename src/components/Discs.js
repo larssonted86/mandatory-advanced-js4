@@ -13,7 +13,7 @@ export class Discs extends Component {
      height: '100%', 
      borderRadius: '90px',
      textAlign: 'center'}}>
-      {row}, {column}
+      {/* {row}, {column} */}
 
    </div>             
   )
