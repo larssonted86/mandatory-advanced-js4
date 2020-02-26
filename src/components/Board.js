@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Discs from './Discs.js'
+import WinnerCard from './WinnerCard'
 
 
 export class Board extends Component {
@@ -7,6 +8,7 @@ export class Board extends Component {
  state = {
   board: new Array(42).fill(null),
   playerTurn: 'teal',
+  winner: '',
  }
 
  componentDidMount(){
@@ -31,23 +33,95 @@ export class Board extends Component {
 
   newBoard[current] = this.state.playerTurn;
 
+  const winner = this.winCheck(newBoard);
+
+
   this.setState({
    board: newBoard,
    playerTurn: this.state.playerTurn === "teal" ? "pink" : "teal",
   });
  }
 
- winCheck = (index, boardArray) => {
+ winCheck = (boardArray) => {
   //rows
-   for(let i = {index}; i < boardArray.length; i += 7 ){
-    for(let j = i; j<= i+3; j++){
-     if(j)
+  for (let row = 0; row < 6; row += 1) {
+    for (let col = 0; col < 4; col += 1) {
+      const cells = [
+        boardArray[row * 7 + col],
+        boardArray[row * 7 + col + 1],
+        boardArray[row * 7 + col + 2],
+        boardArray[row * 7 + col + 3],
+      ];
+
+      if (cells[0] && cells[0] === cells[1] && cells[0] === cells[2] && cells[0] === cells[3]) {
+        this.setState({
+          winner: cells[0]
+        })
+        return cells[0];
+      }
     }
-   }     
+  }  
+
+  for (let col = 0; col < 7; col += 1 ){
+    for (let row = 0; row < 3; row += 1){
+      const cells = [
+        boardArray[row * 7 + col],
+        boardArray[(row + 1) * 7 + col],
+        boardArray[(row + 2) * 7 + col],
+        boardArray[(row + 3) * 7 + col],
+      ];
+
+      if (cells[0] && cells[0] === cells[1] && cells[0] === cells[2] && cells[0] === cells[3]) {
+        this.setState({
+          winner: cells[0]
+        })
+        return cells[0];
+      }
+    }
+  } 
+  
+  //Diagonal downward.
+  for (let row = 0; row < 3; row +=1){
+    for (let col = 0; col < 4; col +=1){
+      const cells = [
+        boardArray[row * 7 + col],
+        boardArray[row * 7 + col + 8],
+        boardArray[row * 7 + col + 16],
+        boardArray[row * 7 + col + 24],
+      ];  
+      if (cells[0] && cells[0] === cells[1] && cells[0] === cells[2] && cells[0] === cells[3]) {
+        this.setState({
+          winner: cells[0]
+        })
+        return cells[0];
+      }    
+    }
+  }
+
+  //Diagonal upward.
+  for (let row = 0; row < 3; row +=1){
+    for (let col = 0; col < 4; col +=1){
+      const cells = [
+        boardArray[row * 7 + 21 + col],
+        boardArray[row * 7 + 21 + col - 6],
+        boardArray[row * 7 + 21 + col - 12],
+        boardArray[row * 7 + 21 + col - 18],
+      ];  
+      if (cells[0] && cells[0] === cells[1] && cells[0] === cells[2] && cells[0] === cells[3]) {
+        this.setState({
+          winner: cells[0]
+        })
+        return cells[0];
+      }    
+    }
+  }
+  return null;
  }
     
  render() {
-  console.log(this.state.board)
+   if(this.state.winner){     
+     return <WinnerCard winner = {this.state.winner}/>
+   }
   const boardArray = this.state.board.map( (value,index) => {
       return(<div 
       key = {index} 
@@ -63,7 +137,7 @@ export class Board extends Component {
    <div name='boardContainer' style = {styles.boardContainer}>
     <h1 style = {{marginTop: '0.1rem'}}>let the games begin</h1>
     <div name = 'board' style = {styles.boardStyle}>
-     {renderBoard}
+     {boardArray}
     </div>
    </div>
   )

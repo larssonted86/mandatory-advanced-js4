@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 
 export class Discs extends Component {
  render() {
+  const row = Math.floor(this.props.index / 7);
+  const column = this.props.index % 7;
+  
   return (            
    <div 
     style={{
@@ -10,7 +13,8 @@ export class Discs extends Component {
      height: '100%', 
      borderRadius: '90px',
      textAlign: 'center'}}>
-      {this.props.index}
+      {row}, {column}
+
    </div>             
   )
  }

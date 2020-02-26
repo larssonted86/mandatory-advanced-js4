@@ -5,6 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 import Board from './Board'
+import WinnerCard from './WinnerCard';
 
 export class App extends Component {
   render() {
@@ -12,6 +13,9 @@ export class App extends Component {
      <Router>
       <Route path = '/' exact>
         <Board />
+      </Route>
+      <Route path = '/winnercard'>
+        <WinnerCard />
       </Route>        
      </Router>      
     )
