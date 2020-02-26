@@ -8,14 +8,12 @@ import Board from './Board'
 
 export class App extends Component {
   render() {
-    return (
-      <Router>
-        <Route path = '/' exact>
-          <Board />
-        </Route>
-        
-      </Router>
-      
+   return (
+     <Router>
+      <Route path = '/' exact>
+        <Board />
+      </Route>        
+     </Router>      
     )
   }
 }
