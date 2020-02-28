@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Discs from './Discs.js'
 import WinnerCard from './WinnerCard'
+import DrawCard from './DrawCard'
 
 
 export class Board extends Component {
@@ -9,6 +10,7 @@ export class Board extends Component {
   board: new Array(42).fill(null),
   playerTurn: 'teal',
   winner: '',
+  draw: false,
  }
 
  componentDidMount(){
@@ -115,12 +117,23 @@ export class Board extends Component {
       }    
     }
   }
-  return null;
- }
+
+ 
+if(boardArray.every(cell => cell != null )){
+  this.setState({
+    draw: true
+  })
+}
+
+    return null;
+ 
+}
     
  render() {
    if(this.state.winner){     
      return <WinnerCard winner = {this.state.winner}/>
+   }else if (this.state.draw){
+    return <DrawCard />
    }
   const boardArray = this.state.board.map( (value,index) => {
       return(<div 
